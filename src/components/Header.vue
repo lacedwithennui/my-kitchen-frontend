@@ -12,36 +12,47 @@ const toggleMobileMenu = () => {
 
 <template>
     <header class="header">
-        <div class="header-content">
+        <div class="header-content content-width">
             <div class="header-left">
-                <RouterLink class="header-link" to="/"><h2>Hazel's Kitchen</h2></RouterLink>
+                <RouterLink class="header-link" to="/"><h3>Hazel's Kitchen</h3></RouterLink>
             </div>
             <button class="menu-button" @click="toggleMobileMenu">
                 <MenuIcon v-if="!isMobileMenuOpen" class="menu-icon" />
                 <XIcon v-if="isMobileMenuOpen" class="menu-icon" />
             </button>
             <nav class="header-right" :class="{'mobile-menu-open': isMobileMenuOpen}">
-                <RouterLink class="header-link" to="/about"><h2>About</h2></RouterLink>
-                <RouterLink class="header-link" to="/substitutions"><h2>Substitution Guide</h2></RouterLink>
-                <RouterLink class="header-link" to="/blog"><h2>Blog</h2></RouterLink>
-                <RouterLink class="header-link" to="/login"><h2>Log In</h2></RouterLink>
+                <RouterLink class="header-link" to="/"><h3>Home</h3></RouterLink>
+                <RouterLink class="header-link" to="/about"><h3>About</h3></RouterLink>
+                <RouterLink class="header-link" to="/substitutions"><h3>Substitution Guide</h3></RouterLink>
+                <RouterLink class="header-link" to="/blog"><h3>Blog</h3></RouterLink>
+                <!-- <RouterLink class="header-link" to="/login"><h3>Log In</h3></RouterLink> -->
             </nav>
         </div>
     </header>
 </template>
 
 <style scoped>
+header {
+    --link-padding-block: 1rem;
+    --link-padding-inline: 1.5rem;
+    --header-height: calc(var(--h3-font-size) * var(--line-height) + 2 * var(--link-padding-block));
+
+    --hover-background-color: var(--dust-gray);
+    --active-background-color: var(--soft-periwinkle);
+    --active-text-color: var(--light);
+    --active-hover-background-color: color-mix(in srgb, var(--soft-periwinkle) 70%, var(--dust-gray) 30%);
+    --active-active-background-color: var(--soft-periwinkle);
+}
+
 .header {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: var(--header-height);
     box-shadow: 0px 5px 5px var(--box-shadow-color);
     background-color: var(--background-color);
 }
 
 .header-content {
-    max-width: var(--content-width);
     flex: 1 1 auto;
     display: flex;
     align-items: center;
@@ -60,11 +71,15 @@ const toggleMobileMenu = () => {
     color: var(--text-color);
     font-size: 1.25rem;
     font-weight: 700;
-    padding: 1rem 1.5rem;
+    padding: var(--link-padding-block) var(--link-padding-inline);
 }
 
 .header-right .header-link:hover {
     background-color: var(--hover-background-color);
+}
+
+.header-left .header-link {
+    padding-inline: 0px;
 }
 
 .router-link-active {
@@ -102,7 +117,7 @@ const toggleMobileMenu = () => {
 }
 
 .menu-icon {
-    height: var(--h2-font-size);
+    height: var(--h3-font-size);
     width: auto;
 }
 

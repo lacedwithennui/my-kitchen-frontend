@@ -1,4 +1,4 @@
-@import "./variables.css";
+@import "./global-variables.css";
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 
 html {
@@ -27,9 +27,27 @@ h3 {
     font-weight: 700;
 }
 
+a {
+    color: var(--link-color)
+}
+
 #root {
     display: flex;
     flex-direction: column;
     max-width: 100%;
     margin: 0 auto;
+}
+
+#page {
+    margin-top: 1rem;
+}
+
+.content-width {
+    max-width: var(--content-width);
+    margin-inline: auto;
+}
+
+.icon-inline {
+    display: inline;
+    height: 1em;
 }

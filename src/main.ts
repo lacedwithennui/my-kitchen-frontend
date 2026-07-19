@@ -1,12 +1,11 @@
 import { createApp } from "vue";
-import "./assets/styles/reset.css";
-import "./assets/styles/index.css";
+import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
-import { createWebHistory, createRouter } from "vue-router";
+import "./assets/styles/index.css";
+import "./assets/styles/reset.css";
+import About from "./pages/About.vue";
 
-import Recipe from "./pages/Recipe.vue";
-
-const routes = [{ path: "/blog", component: Recipe }];
+const routes = [{ path: "/about", component: About }];
 
 export const router = createRouter({
     history: createWebHistory(),
