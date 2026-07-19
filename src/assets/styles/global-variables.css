@@ -1,7 +1,9 @@
+@custom-media --tablet-breakpoint (max-width: 900px);
+
 :root {
     /* Layout */
     --content-width: 1200px;
-    --tablet-breakpoint: 900px;
+    --minimum-margin: 1rem;
 
     /* Typography */
     --root-font-size: 18px;

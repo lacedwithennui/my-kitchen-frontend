@@ -2,7 +2,6 @@ import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
 import "./assets/styles/index.css";
-import "./assets/styles/reset.css";
 import About from "./pages/About.vue";
 
 const routes = [{ path: "/about", component: About }];

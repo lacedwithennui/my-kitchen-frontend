@@ -12,7 +12,7 @@ const toggleMobileMenu = () => {
 
 <template>
     <header class="header">
-        <div class="header-content content-width">
+        <div class="header-content content-width minimum-margin">
             <div class="header-left">
                 <RouterLink class="header-link" to="/"><h3>Hazel's Kitchen</h3></RouterLink>
             </div>
@@ -53,7 +53,7 @@ header {
 }
 
 .header-content {
-    flex: 1 1 auto;
+    flex: 0 1 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -64,6 +64,10 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.header-right, .menu-button {
+    margin-right: calc(-1 * var(--minimum-margin))
 }
 
 .header-link {
@@ -121,7 +125,7 @@ header {
     width: auto;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (--tablet-breakpoint) {
     .header-right {
         display: none;
         position: absolute;
