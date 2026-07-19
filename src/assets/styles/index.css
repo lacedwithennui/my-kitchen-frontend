@@ -51,3 +51,11 @@ a {
     display: inline;
     height: 1em;
 }
+
+.lucide-circle-check-big-icon, .lucide-chart-pie-icon {
+    color: var(--sunflower-gold);
+}
+/* 
+.inline-ingredient {
+
+} */

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ChartPieIcon } from "@lucide/vue";
+import { CircleCheckBigIcon, ChartPieIcon } from "@lucide/vue";
 import { ref } from "vue";
 import Bibliography from "../components/Bibliography.vue";
 import InlineCitation from "../components/InlineCitation.vue";
