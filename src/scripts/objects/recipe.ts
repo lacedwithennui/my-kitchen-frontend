@@ -2,6 +2,7 @@ type IngredientJSON = {
     name: string;
     quantity: number;
     unit?: string | null;
+    substitutionIds: string[];
 };
 
 type RecipeJSON = {
@@ -172,11 +173,13 @@ export class Ingredient {
     private _name: string;
     private _quantity: number;
     private _unit?: string;
+    private _substitutionIds: string[] = [];
 
-    constructor(name: string, quantity: number, unit?: string) {
+    constructor(name: string, quantity: number, unit?: string, substitutionIds: string[] = []) {
         this._name = name;
         this._quantity = quantity;
         this._unit = unit;
+        this._substitutionIds = substitutionIds;
     }
 
     public static fromJSON(json: IngredientJSON): Ingredient {
@@ -189,7 +192,8 @@ export class Ingredient {
             name: this._name,
             quantity: this._quantity,
             // Coalesce undefined to null for JSON only
-            unit: this._unit ?? null
+            unit: this._unit ?? null,
+            substitutionIds: this._substitutionIds
         };
     }
 

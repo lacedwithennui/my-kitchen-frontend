@@ -68,6 +68,8 @@ main.content-width, .content-width.minimum-margin {
 .icon-inline {
     display: inline;
     height: 1em;
+    width: auto;
+    vertical-align: center;
 }
 
 .lucide-circle-check-big-icon, .lucide-chart-pie-icon {

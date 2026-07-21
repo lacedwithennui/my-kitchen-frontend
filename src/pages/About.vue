@@ -1,23 +1,10 @@
 <script setup lang="ts">
 import { CircleCheckBigIcon, ChartPieIcon, ArrowLeftRightIcon } from "@lucide/vue";
-import { ref } from "vue";
 import Bibliography from "../components/Bibliography.vue";
 import InlineCitation from "../components/InlineCitation.vue";
-import type { CitationList } from "../scripts/types/citation.ts";
+import { useInlineCitations } from "../scripts/composables/useInlineCitations.ts";
 
-const citationList = ref<CitationList>({});
-const lastCitationDisplayIndex = ref(0);
-
-const addToCitationList = (href: string, displayText: string) => {
-    if (!Object.hasOwn(citationList.value, href)) {
-        citationList.value[href] = {
-            href,
-            displayText,
-            displayIndex: ++lastCitationDisplayIndex.value
-        };
-    }
-    return lastCitationDisplayIndex.value;
-};
+const { citationList, addToCitationList, highlightBibliographyEntry } = useInlineCitations();
 </script>
 
 <template>
@@ -32,13 +19,14 @@ const addToCitationList = (href: string, displayText: string) => {
                     href="https://www.the-independent.com/tech/recipes-online-cookbooks-food-inspiration-social-media-facebook-instagram-b1397624.html"
                     displayText="More than 70% of adults use social media for recipes instead of cookbooks, survey finds"
                     :citation-list="citationList"
-                    :add-to-list-callback="addToCitationList" />. Recently, I found <em>myself</em> turning to TikTok
-                and Instagram when I needed new dinner ideas. Why worry about the counterspace a cookbook takes up, the
-                mystery budget required for each recipe, or misunderstanding the weird wording describing archaic
-                cooking techniques? Short-form video recipes allow you to see the process from start to finish with
-                visible steps, and they have the added benefit of going wherever you go. No need to wait until you're
-                home to check what groceries you need to buy for dinner tonight. But how can we make that experience
-                even better?
+                    :add-to-list-callback="addToCitationList"
+                    :highlight-bibliography-entry-callback="highlightBibliographyEntry" />. Recently, I found
+                <em>myself</em> turning to TikTok and Instagram when I needed new dinner ideas. Why worry about the
+                counterspace a cookbook takes up, the mystery budget required for each recipe, or misunderstanding the
+                weird wording describing archaic cooking techniques? Short-form video recipes allow you to see the
+                process from start to finish with visible steps, and they have the added benefit of going wherever you
+                go. No need to wait until you're home to check what groceries you need to buy for dinner tonight. But
+                how can we make that experience even better?
             </p>
             <p>
                 <b>Hazel's Kitchen is my passion project</b>, blending the cooking experience I built growing up with
@@ -96,9 +84,10 @@ const addToCitationList = (href: string, displayText: string) => {
                         href="https://www.macrumors.com/2024/11/21/best-selling-iphone-model-sizes-revealed/"
                         display-text="iPhone Base Models Remain Best-Sellers Despite Pro Max Appeal"
                         :citation-list="citationList"
-                        :add-to-list-callback="addToCitationList" />, you don't have a lot of screen space to work with.
-                    I will never sacrifice valuable screen space or your privacy in the interest of a few cents of ad
-                    revenue.
+                        :add-to-list-callback="addToCitationList"
+                        :highlight-bibliography-entry-callback="highlightBibliographyEntry" />, you don't have a lot of
+                    screen space to work with. I will never sacrifice valuable screen space or your privacy in the
+                    interest of a few cents of ad revenue.
                 </p>
             </section>
         </section>
