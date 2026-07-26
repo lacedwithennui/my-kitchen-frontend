@@ -1,28 +1,48 @@
 <script setup lang="ts">
 import { ChartPieIcon, CircleCheckBigIcon } from "@lucide/vue";
+import type { Ingredient } from "../scripts/objects/recipe";
 
 interface Props {
-    fullAmount?: boolean;
+    ingredient: Ingredient;
 }
 
-const props = withDefaults(defineProps<Props>(), { fullAmount: true });
+const props = defineProps<Props>();
+const { name, quantity, unit, substitutions, isFullAmountUsedInRecipe } = props.ingredient;
+const fullAmount = isFullAmountUsedInRecipe ?? true;
 </script>
 <template>
-    <span class="ingredient-inline-wrapper">
-        <span class="ingredient-inline"><slot></slot></span>
-        <CircleCheckBigIcon v-if="fullAmount" class="icon-inline" />
-        <ChartPieIcon v-else class="icon-inline" />
-    </span>
-    <div class="ingredient-tooltip">
-        Hello World
+    <div class="ingredient-inline-container">
+        <span class="ingredient-inline-wrapper">
+            <span class="ingredient-inline">{{ ingredient.toString() }}</span>
+            <CircleCheckBigIcon v-if="fullAmount" class="icon-inline" />
+            <ChartPieIcon v-else class="icon-inline" />
+        </span>
+        <div class="ingredient-tooltip">
+            <p v-if="fullAmount">This is the full amount of this ingredient listed in the ingredients list.</p>
+            <p v-else>This is just a portion of the full amount of this ingredient listed in the ingredients list.</p>
+            <br v-if="substitutions.length" />
+            <h3 v-if="substitutions.length">Substitute for:</h3>
+            <div v-for="(substitution, index) in substitutions" class="substitution">
+                <p v-for="substitutionIngredientString in substitution.getScaledSubstitutionIngredientStrings()">
+                    {{ substitutionIngredientString }}
+                </p>
+                <!-- Don't show "---- or ----" separator after last substitution -->
+                <p v-if="index < substitutions.length - 1" class="substitution-separator">or</p>
+            </div>
+        </div>
     </div>
 </template>
 
 <style scoped>
+.ingredient-inline-container {
+    position: relative;
+    display: inline-block;
+}
 
 .ingredient-inline-wrapper {
     display: inline-block;
-    height: 1em;
+    /* height: 1em; */
+    cursor: pointer;
 }
 
 .ingredient-inline {
@@ -33,13 +53,44 @@ const props = withDefaults(defineProps<Props>(), { fullAmount: true });
 
 .ingredient-tooltip {
     display: none;
+    
+    position: absolute;
+    z-index: 10;
+    /* top: -1em; */
+    top: 0;
+    left: 100%;
+    margin-left: 5px;
+
+
+    width: 20rem;
+    box-shadow: 0px 0px 5px var(--box-shadow-color);
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: var(--background-color);
 }
 
 .ingredient-inline-wrapper:hover + .ingredient-tooltip {
     display: block;
-    position: relative;
-    z-index: 10;
-    /* top: -1em; */
-    top: 0;
+}
+
+.substitution-separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.substitution-separator::before,
+.substitution-separator::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid var(--text-color);
+}
+
+.substitution-separator::before {
+    margin-right: 0.25em;
+}
+
+.substitution-separator::after {
+    margin-left: 0.25em;
 }
 </style>

@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@csstools/postcss-global-data": "^4.0.0",
-    "@types/node": "^24.13.2",
+    "@types/node": "^24.13.3",
     "@vitejs/plugin-vue": "^6.0.7",
     "@vue/tsconfig": "^0.9.1",
     "autoprefixer": "^10.5.4",

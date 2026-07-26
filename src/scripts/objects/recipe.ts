@@ -1,38 +1,190 @@
+type UUID = ReturnType<typeof crypto.randomUUID>;
+
 type IngredientJSON = {
     name: string;
     quantity: number;
     unit?: string | null;
-    substitutionIds: string[];
+    substitutions: SubstitutionJSON[];
+    isFullAmountUsedInRecipe?: boolean | null;
+};
+
+type SubstitutionJSON = {
+    id: UUID;
+    originalIngredient: IngredientJSON;
+    substitutionIngredients: IngredientJSON[];
+    displayScaleFactor?: number | null;
+    notes: string | null;
 };
 
 type RecipeJSON = {
     name: string;
-    subtitle?: string;
-    description?: string;
+    subtitle?: string | null;
+    description?: string | null;
     ingredients: IngredientJSON[];
     instructions: string[];
-    tags?: string[];
-    thumbnailURL?: string;
-    prepTimeMinutes?: number;
-    cookTimeMinutes?: number;
+    tags: string[];
+    thumbnailURL?: string | null;
+    prepTimeMinutes?: number | null;
+    cookTimeMinutes?: number | null;
 };
 
-export default class Recipe {
+export class Ingredient {
+    private _name: string;
+    private _quantity: number;
+    private _unit?: string;
+    private _substitutions: Substitution[] = [];
+    private _isFullAmountUsedInRecipe?: boolean;
+
+    constructor(
+        name: string,
+        quantity: number,
+        unit?: string,
+        substitutions: Substitution[] = [],
+        isFullAmountUsedInRecipe?: boolean
+    ) {
+        this._name = name;
+        this._quantity = quantity;
+        this._unit = unit;
+        this._substitutions = substitutions;
+        this._isFullAmountUsedInRecipe = isFullAmountUsedInRecipe;
+    }
+
+    public static fromJSON(json: IngredientJSON): Ingredient {
+        // Nulls should be on JSON only. Missing unit should be undefined in the object.
+        return new Ingredient(
+            json.name,
+            json.quantity,
+            json.unit ?? undefined,
+            json.substitutions.map((substitution) => Substitution.fromJSON(substitution)),
+            json.isFullAmountUsedInRecipe ?? undefined
+        );
+    }
+
+    public toJSON(): IngredientJSON {
+        return {
+            name: this._name,
+            quantity: this._quantity,
+            // Coalesce undefined to null for JSON only
+            unit: this._unit ?? null,
+            substitutions: this._substitutions.map((substitution) => substitution.toJSON()),
+            isFullAmountUsedInRecipe: this._isFullAmountUsedInRecipe ?? null
+        };
+    }
+
+    public get name(): string {
+        return this._name;
+    }
+
+    public get quantity(): number {
+        return this._quantity;
+    }
+
+    public get unit(): string | undefined {
+        return this._unit;
+    }
+
+    public get substitutions(): Substitution[] {
+        return this._substitutions;
+    }
+
+    public get isFullAmountUsedInRecipe(): boolean | undefined {
+        return this._isFullAmountUsedInRecipe;
+    }
+
+    /**
+     * Get this ingredient as a string in the format "quantity (unit? )name", e.g.
+     * "1 lb ground beef" or "2 eggs"
+     * @returns A string representation of the ingredient in the format "quantity (unit? )name"
+     */
+    public toString(): string {
+        return `${this._quantity} ${this._unit ? this._unit + " " : ""}${this._name}`;
+    }
+}
+
+export class Substitution {
+    private _id: UUID;
+    private _originalIngredient: Ingredient;
+    private _substitutionIngredients: Ingredient[];
+    private _displayScaleFactor: number = 1;
+    private _notes?: string;
+
+    public constructor(
+        id: UUID,
+        originalIngredient: Ingredient,
+        substitutionIngredients: Ingredient[],
+        displayScaleFactor: number = 1,
+        notes?: string
+    ) {
+        this._id = id;
+        this._originalIngredient = originalIngredient;
+        this._substitutionIngredients = substitutionIngredients;
+        this._displayScaleFactor = displayScaleFactor;
+        this._notes = notes;
+    }
+
+    public static fromJSON(json: SubstitutionJSON): Substitution {
+        return new Substitution(
+            json.id,
+            Ingredient.fromJSON(json.originalIngredient),
+            json.substitutionIngredients.map((substitutionIngredient) => Ingredient.fromJSON(substitutionIngredient)),
+            json.displayScaleFactor ?? 1,
+            json.notes ?? undefined
+        );
+    }
+
+    public toJSON(): SubstitutionJSON {
+        return {
+            id: this._id,
+            originalIngredient: this._originalIngredient.toJSON(),
+            substitutionIngredients: this._substitutionIngredients.map((substitutionIngredient) =>
+                substitutionIngredient.toJSON()
+            ),
+            displayScaleFactor: this._displayScaleFactor,
+            notes: this._notes ?? null
+        };
+    }
+
+    public get id() {
+        return this._id;
+    }
+
+    public get originalIngredient() {
+        return this._originalIngredient;
+    }
+
+    public get substitutionIngredients() {
+        return this._substitutionIngredients;
+    }
+
+    public get displayScaleFactor() {
+        return this._displayScaleFactor;
+    }
+
+    public get notes() {
+        return this._notes;
+    }
+
+    public getScaledSubstitutionIngredientStrings() {
+        return this._substitutionIngredients.map((substitutionIngredient) => {
+            const json = substitutionIngredient.toJSON();
+            json.quantity *= this._displayScaleFactor;
+            return Ingredient.fromJSON(json);
+        });
+    }
+}
+
+export class Recipe {
     private _name: string;
     private _subtitle?: string;
     private _description?: string;
     private _ingredients: Ingredient[];
     private _instructions: string[];
-    private _tags?: string[];
+    private _tags: string[] = [];
     private _thumbnailURL?: string;
     private _prepTimeMinutes?: number;
     private _cookTimeMinutes?: number;
 
-    public constructor(
-        name: string,
-        ingredients: Ingredient[],
-        instructions: string[]
-    ) {
+    public constructor(name: string, ingredients: Ingredient[], instructions: string[]) {
         this._name = name;
         this._ingredients = ingredients;
         this._instructions = instructions;
@@ -48,7 +200,7 @@ export default class Recipe {
         return this;
     }
 
-    public withTags(tags?: string[]): Recipe {
+    public withTags(tags: string[] = []): Recipe {
         this._tags = tags;
         return this;
     }
@@ -69,34 +221,31 @@ export default class Recipe {
     }
 
     public static fromJSON(json: RecipeJSON): Recipe {
-        const recipe = new Recipe(
+        // Nulls should be on JSON only. Missing unit should be undefined in the object.
+        return new Recipe(
             json.name,
-            json.ingredients.map((ingredient) =>
-                Ingredient.fromJSON(ingredient)
-            ),
+            json.ingredients.map((ingredient) => Ingredient.fromJSON(ingredient)),
             json.instructions
         )
-            .withSubtitle(json.subtitle)
-            .withDescription(json.description)
+            .withSubtitle(json.subtitle ?? undefined)
+            .withDescription(json.description ?? undefined)
             .withTags(json.tags)
-            .withThumbnail(json.thumbnailURL)
-            .withPrepTime(json.prepTimeMinutes)
-            .withCookTime(json.cookTimeMinutes);
-
-        return recipe;
+            .withThumbnail(json.thumbnailURL ?? undefined)
+            .withPrepTime(json.prepTimeMinutes ?? undefined)
+            .withCookTime(json.cookTimeMinutes ?? undefined);
     }
 
     public toJSON(): RecipeJSON {
         return {
             name: this._name,
-            subtitle: this._subtitle,
-            description: this._description,
+            subtitle: this._subtitle ?? null,
+            description: this._description ?? null,
             ingredients: this._ingredients.map((ingredient) => ingredient.toJSON()),
             instructions: this._instructions,
             tags: this._tags,
-            thumbnailURL: this._thumbnailURL,
-            prepTimeMinutes: this._prepTimeMinutes,
-            cookTimeMinutes: this._cookTimeMinutes
+            thumbnailURL: this._thumbnailURL ?? null,
+            prepTimeMinutes: this._prepTimeMinutes ?? null,
+            cookTimeMinutes: this._cookTimeMinutes ?? null
         };
     }
 
@@ -137,8 +286,7 @@ export default class Recipe {
     }
 
     public get totalTimeMinutes(): number | undefined {
-        const totalTime =
-            (this._prepTimeMinutes || 0) + (this._cookTimeMinutes || 0);
+        const totalTime = (this._prepTimeMinutes || 0) + (this._cookTimeMinutes || 0);
         return totalTime > 0 ? totalTime : undefined;
     }
 
@@ -166,55 +314,5 @@ export default class Recipe {
 
     public ingredientsFormatted(): string[] {
         return this._ingredients.map((ingredient) => ingredient.toString());
-    }
-}
-
-export class Ingredient {
-    private _name: string;
-    private _quantity: number;
-    private _unit?: string;
-    private _substitutionIds: string[] = [];
-
-    constructor(name: string, quantity: number, unit?: string, substitutionIds: string[] = []) {
-        this._name = name;
-        this._quantity = quantity;
-        this._unit = unit;
-        this._substitutionIds = substitutionIds;
-    }
-
-    public static fromJSON(json: IngredientJSON): Ingredient {
-        // Nulls should be on JSON only. Missing unit should be undefined in the object.
-        return new Ingredient(json.name, json.quantity, json.unit ?? undefined);
-    }
-
-    public toJSON(): IngredientJSON {
-        return {
-            name: this._name,
-            quantity: this._quantity,
-            // Coalesce undefined to null for JSON only
-            unit: this._unit ?? null,
-            substitutionIds: this._substitutionIds
-        };
-    }
-
-    public get name(): string {
-        return this._name;
-    }
-
-    public get quantity(): number {
-        return this._quantity;
-    }
-
-    public get unit(): string | undefined {
-        return this._unit;
-    }
-
-    /**
-     * Get this ingredient as a string in the format "quantity (unit? )name", e.g.
-     * "1 lb ground beef" or "2 eggs"
-     * @returns A string representation of the ingredient in the format "quantity (unit? )name"
-     */
-    public toString(): string {
-        return `${this._quantity} ${this._unit ? this._unit + " " : ""}${this._name}`;
     }
 }
