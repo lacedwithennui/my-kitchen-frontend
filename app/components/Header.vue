@@ -86,7 +86,7 @@ header {
     padding-inline: 0px;
 }
 
-.router-link-active {
+.header-right .router-link-active {
     position: relative;
     background-color: var(--active-background-color);
     color: var(--active-text-color);

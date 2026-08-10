@@ -1,5 +1,5 @@
 @import "./global-variables.css";
-@import "reset.css";
+@import "./reset.css";
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 
 html {
@@ -69,7 +69,10 @@ main.content-width, .content-width.minimum-margin {
     display: inline;
     height: 1em;
     width: auto;
-    vertical-align: middle;
+    /* vertical-align: center; produces the following results in Firefox: */
+    alignment-baseline: baseline;
+    baseline-shift: center;
+    baseline-source: auto;
 }
 
 .lucide-circle-check-big-icon, .lucide-chart-pie-icon {

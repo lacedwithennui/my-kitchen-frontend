@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { CircleCheckBigIcon, ChartPieIcon, ArrowLeftRightIcon } from "@lucide/vue";
-import Bibliography from "../components/Bibliography.vue";
-import InlineCitation from "../components/InlineCitation.vue";
-import { useInlineCitations } from "../scripts/composables/useInlineCitations.ts";
+import Bibliography from "../../components/Bibliography.vue";
+import InlineCitation from "../../components/InlineCitation.vue";
+import { useInlineCitations } from "../../composables/useInlineCitations.ts";
 
 const { citationList, addToCitationList, highlightBibliographyEntry } = useInlineCitations();
 </script>

@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import type { CitationList } from "../types/citation.ts";
+import type { CitationList } from "../utils/types/citation.ts";
 
 export function useInlineCitations() {
     const citationList = ref<CitationList>({});
@@ -21,7 +21,7 @@ export function useInlineCitations() {
             return;
         }
         const bibliographyCitation = document.getElementById(
-            `bibliography-citation-${citationList.value[href].displayIndex}`
+            `bibliography-citation-${citationList.value[href]!.displayIndex}`
         );
         if (!bibliographyCitation) {
             return;
