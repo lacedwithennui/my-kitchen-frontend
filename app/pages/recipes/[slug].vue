@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import InlineIngredient from "../../components/InlineIngredient.vue";
-import { Ingredient, Substitution } from "../../utils/objects/recipe.ts";
+import { Ingredient, Substitution } from "../../utils/models/recipe.ts";
 
 const recipeSlug = useRoute().params.slug;
 const ingredient1 = new Ingredient(

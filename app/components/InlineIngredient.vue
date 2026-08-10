@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ChartPieIcon, CircleCheckBigIcon } from "@lucide/vue";
-import type { Ingredient } from "../utils/objects/recipe";
+import type { Ingredient } from "../utils/models/recipe";
 
 interface Props {
     ingredient: Ingredient;

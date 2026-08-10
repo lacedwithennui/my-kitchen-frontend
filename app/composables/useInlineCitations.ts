@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import type { CitationList } from "../utils/types/citation.ts";
+import type { CitationList } from "../utils/models/citation.ts";
 
 export function useInlineCitations() {
     const citationList = ref<CitationList>({});

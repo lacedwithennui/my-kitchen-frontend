@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CitationList } from "../utils/types/citation";
+import type { CitationList } from "../utils/models/citation";
 
 interface Props {
     citationList: CitationList;
