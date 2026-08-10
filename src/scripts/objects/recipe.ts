@@ -1,3 +1,5 @@
+import { fractionalizeQuantity, pluralizeUnit } from "./measurements.ts";
+
 type UUID = ReturnType<typeof crypto.randomUUID>;
 
 type IngredientJSON = {
@@ -91,13 +93,17 @@ export class Ingredient {
         return this._isFullAmountUsedInRecipe;
     }
 
+    public getFractionalizedQuantity() {
+        return fractionalizeQuantity(this.quantity);
+    }
+
     /**
      * Get this ingredient as a string in the format "quantity (unit? )name", e.g.
      * "1 lb ground beef" or "2 eggs"
      * @returns A string representation of the ingredient in the format "quantity (unit? )name"
      */
     public toString(): string {
-        return `${this._quantity} ${this._unit ? this._unit + " " : ""}${this._name}`;
+        return `${this.getFractionalizedQuantity()} ${this._unit ? this._unit + " " : ""}${this._name}`;
     }
 }
 
@@ -168,7 +174,10 @@ export class Substitution {
         return this._substitutionIngredients.map((substitutionIngredient) => {
             const json = substitutionIngredient.toJSON();
             json.quantity *= this._displayScaleFactor;
-            return Ingredient.fromJSON(json);
+            if (json.unit) {
+                json.unit = pluralizeUnit(json.unit, json.quantity);
+            }
+            return Ingredient.fromJSON(json).toString();
         });
     }
 }
@@ -205,8 +214,19 @@ export class Recipe {
         return this;
     }
 
-    public withThumbnail(thumbnail?: string): Recipe {
-        this._thumbnailURL = thumbnail;
+    public withThumbnail(thumbnailURL?: string): Recipe {
+        if (!thumbnailURL) {
+            return this;
+        }
+        try {
+            const thumbnailURLasURL = new URL(thumbnailURL);
+            if (thumbnailURLasURL.protocol !== "https:") {
+                throw new Error("Image URLs must be secure (starting with 'https://').");
+            }
+            this._thumbnailURL = thumbnailURL;
+        } catch {
+            throw new Error("Invalid thumbnail URL (is it really a URL?)");
+        }
         return this;
     }
 

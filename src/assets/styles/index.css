@@ -69,15 +69,11 @@ main.content-width, .content-width.minimum-margin {
     display: inline;
     height: 1em;
     width: auto;
-    vertical-align: center;
+    vertical-align: middle;
 }
 
 .lucide-circle-check-big-icon, .lucide-chart-pie-icon {
     color: var(--sunflower-gold);
-}
-
-.inline-ingredient {
-
 }
 
 .lucide-arrow-left-right-icon {

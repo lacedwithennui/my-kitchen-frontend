@@ -7,11 +7,11 @@ const ingredient1 = new Ingredient(
     2,
     "Cups",
     [
-        new Substitution(crypto.randomUUID(), new Ingredient("Beef broth", 1, "Cup"), [
-            new Ingredient("Better than Bullion (Beef)", 1, "Tsp"),
-            new Ingredient("Hot water", 1, "Cup")
+        new Substitution(crypto.randomUUID(), new Ingredient("Beef broth", 1, "cup"), [
+            new Ingredient("Better than Bullion (Beef)", 1, "tsp"),
+            new Ingredient("Hot water", (1/3), "cup")
         ], 2),
-        new Substitution(crypto.randomUUID(), new Ingredient("Beef broth", 1, "Cup"), [new Ingredient("Beef stock", 1, "Cup")], 2)
+        new Substitution(crypto.randomUUID(), new Ingredient("Beef broth", 1, "cup"), [new Ingredient("Beef stock", 1, "cup")], 2)
     ],
     true
 );

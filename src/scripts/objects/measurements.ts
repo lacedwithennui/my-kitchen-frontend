@@ -1,3 +1,5 @@
+import Fraction from "fraction.js";
+
 /** A record mapping a scale factor to a measurement name. For example, grams would contain a ScaledMeasurement of 1000: "kilogram" */
 type ScaledMeasurement = Record<number, MeasurementName>;
 
@@ -107,11 +109,24 @@ export function abbreviateUnit(unit: string): string {
     );
 }
 
-export function pluralizeUnit(unit: string, quantity: number) {
-    if (quantity === 1) {
+export function pluralizeUnit(unit: string, quantity: number): string {
+    if (quantity <= 1) {
         return unit;
     }
-    if (Object.hasOwn(measurements, unit)) {
+    if (unitIsPureMeasurement(unit)) {
         return measurements[unit as MeasurementName].plural;
     }
+    const unitAsAbbreviatedMeasurement = unitIsAbbreviatedMeasurement(unit);
+    if (unitAsAbbreviatedMeasurement) {
+        return measurements[unitAsAbbreviatedMeasurement].abbreviationPlural || unit;
+    }
+    return unit;
+}
+
+export function fractionalizeQuantity(quantity: number): string {
+    if (Number.isInteger(quantity)) {
+        return String(quantity);
+    }
+    // Don't just remove all spaces, as that will mess with mixed numbers like "1 3/4"
+    return new Fraction(quantity).toFraction(true).replaceAll(" / ", "/");
 }
