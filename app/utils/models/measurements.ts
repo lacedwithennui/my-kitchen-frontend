@@ -120,7 +120,7 @@ export function pluralizeUnit(unit: string, quantity: number): string {
     if (unitAsAbbreviatedMeasurement) {
         return measurements[unitAsAbbreviatedMeasurement].abbreviationPlural || unit;
     }
-    return unit;
+    return `${unit}s`;
 }
 
 export function fractionalizeQuantity(quantity: number): string {

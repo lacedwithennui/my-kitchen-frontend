@@ -76,7 +76,7 @@ main.content-width, .content-width.minimum-margin {
 }
 
 .lucide-circle-check-big-icon, .lucide-chart-pie-icon {
-    color: var(--sunflower-gold);
+    color: var(--text-color);
 }
 
 .lucide-arrow-left-right-icon {

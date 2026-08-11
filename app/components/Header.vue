@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { MenuIcon, XIcon } from "@lucide/vue";
-import { ref } from "vue";
-import { RouterLink } from "vue-router";
 
 const isMobileMenuOpen = ref(false);
 
@@ -14,18 +12,18 @@ const toggleMobileMenu = () => {
     <header class="header">
         <div class="header-content content-width minimum-margin">
             <div class="header-left">
-                <RouterLink class="header-link" to="/"><h3>Hazel's Kitchen</h3></RouterLink>
+                <NuxtLink class="header-link" to="/"><h3>Hazel's Kitchen</h3></NuxtLink>
             </div>
             <button class="menu-button" @click="toggleMobileMenu">
                 <MenuIcon v-if="!isMobileMenuOpen" class="menu-icon" />
                 <XIcon v-if="isMobileMenuOpen" class="menu-icon" />
             </button>
             <nav class="header-right" :class="{'mobile-menu-open': isMobileMenuOpen}">
-                <RouterLink class="header-link" to="/"><h3>Home</h3></RouterLink>
-                <RouterLink class="header-link" to="/about"><h3>About</h3></RouterLink>
-                <RouterLink class="header-link" to="/substitutions"><h3>Substitution Guide</h3></RouterLink>
-                <RouterLink class="header-link" to="/blog"><h3>Blog</h3></RouterLink>
-                <!-- <RouterLink class="header-link" to="/login"><h3>Log In</h3></RouterLink> -->
+                <NuxtLink class="header-link" to="/"><h3>Home</h3></NuxtLink>
+                <NuxtLink class="header-link" to="/about"><h3>About</h3></NuxtLink>
+                <NuxtLink class="header-link" to="/substitutions"><h3>Substitution Guide</h3></NuxtLink>
+                <NuxtLink class="header-link" to="/blog"><h3>Blog</h3></NuxtLink>
+                <!-- <NuxtLink class="header-link" to="/login"><h3>Log In</h3></NuxtLink> -->
             </nav>
         </div>
     </header>

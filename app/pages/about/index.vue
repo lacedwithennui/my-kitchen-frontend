@@ -72,7 +72,7 @@ const { citationList, addToCitationList, highlightBibliographyEntry } = useInlin
                     Instagram stories asking for my recipes and cooking tips. You might be one of them! Like Chef
                     Gusteau from Ratatouille, I have always believed that <b>anyone can cook</b>. Not only are all of my
                     recipes written to be as approachable and simple as possible, but there are also resources for
-                    beginners right on this site. <RouterLink to="/blog">Check out the blog</RouterLink> for more info!
+                    beginners right on this site. <NuxtLink to="/blog">Check out the blog</NuxtLink> for more info!
                     <!-- TODO: LINK TO SPECIFIC RESOURCES -->
                 </p>
             </section>
