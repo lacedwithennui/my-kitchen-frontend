@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ChartPieIcon, CircleCheckBigIcon } from "@lucide/vue";
+import { ArrowLeftRightIcon, ChartPieIcon, InfoIcon } from "@lucide/vue";
 import type { Ingredient } from "../utils/models/recipe";
 import IngredientTooltip from "./IngredientTooltip.vue";
 
@@ -7,20 +7,44 @@ interface Props {
     ingredient: Ingredient;
     quantityOverride?: number | null;
     unitOverride?: string | null;
-    isFullAmountUsedInRecipe?: boolean;
 }
 
-withDefaults(defineProps<Props>(), {isFullAmountUsedInRecipe: true});
+const props = defineProps<Props>();
+
+const isFullAmountUsedInRecipe = !Boolean(props.quantityOverride)
+const hasTooltip: ComputedRef<boolean> = computed(() =>
+    Boolean(props.ingredient.longNote || props.ingredient.substitutions.length)
+);
+
+const {
+    ingredientContainerRefName,
+    tooltipComponentRefName,
+    handleMouseEnter,
+    handleMouseLeave
+} = useAdaptiveTooltip();
 </script>
 
 <template>
-    <div class="ingredient-inline-container">
-        <span class="ingredient-inline-wrapper">
-            <span class="ingredient-inline">{{ quantityOverride ? ingredient.toAbbreviatedStringWithOverrides(quantityOverride, unitOverride ?? undefined) : ingredient.toAbbreviatedString() }}</span>
-            <!-- <CircleCheckBigIcon v-if="isFullAmountUsedInRecipe" class="icon-inline" />
-            <ChartPieIcon v-else class="icon-inline" /> -->
+    <div class="ingredient-inline-container" :ref="ingredientContainerRefName">
+        <span
+            class="ingredient-inline-wrapper"
+            @mouseenter="handleMouseEnter"
+            @mouseleave="handleMouseLeave">
+            <span class="ingredient-inline">{{
+                quantityOverride
+                    ? ingredient.toAbbreviatedStringWithOverrides(quantityOverride, unitOverride ?? undefined)
+                    : ingredient.toAbbreviatedString()
+            }}</span>
+            <span class="ingredient-inline-note" v-if="ingredient.inlineNote"> ({{ ingredient.inlineNote }})</span>
+            <ChartPieIcon v-if="!isFullAmountUsedInRecipe" class="icon-inline" />
+            <ArrowLeftRightIcon v-if="ingredient.substitutions.length" class="icon-inline" />
+            <InfoIcon v-if="ingredient.longNote" class="icon-inline" />
         </span>
-        <IngredientTooltip :ingredient="ingredient" :isFullAmountUsedInRecipe="isFullAmountUsedInRecipe" />
+        <IngredientTooltip
+            :v-if="hasTooltip"
+            :ingredient="ingredient"
+            :isFullAmountUsedInRecipe="isFullAmountUsedInRecipe"
+            :ref="tooltipComponentRefName" />
     </div>
 </template>
 
@@ -32,12 +56,21 @@ withDefaults(defineProps<Props>(), {isFullAmountUsedInRecipe: true});
 
 .ingredient-inline-wrapper {
     display: inline-block;
-    cursor: pointer;
 }
 
-.ingredient-inline {
-    /* color: var(--strawberry-red); */
+/* Only give the dashed underline to ingredients with tooltips */
+:has(.ingredient-tooltip) > .ingredient-inline-wrapper {
+    cursor: pointer;
     border-bottom: 2px dashed var(--soft-periwinkle);
-    /* margin-right: 5px; */
+}
+
+.ingredient-inline-note {
+    color: var(--ingredient-inline-note-color);
+    font-weight: 600;
+}
+
+.icon-inline {
+    margin-left: 5px;
+    color: var(--soft-periwinkle);
 }
 </style>

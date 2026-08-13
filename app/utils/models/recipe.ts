@@ -7,7 +7,8 @@ export type IngredientJSON = {
     quantity: number;
     unit?: string | null;
     name: string;
-    note?: string | null;
+    inlineNote?: string | null;
+    longNote?: string | null;
     substitutions?: IngredientJSON[][] | null;
 };
 
@@ -59,7 +60,8 @@ export class Ingredient {
     private _name: string;
     private _quantity: number;
     private _unit?: string;
-    private _note?: string;
+    private _inlineNote?: string;
+    private _longNote?: string;
     private _substitutions: Ingredient[][] = [];
 
     /**
@@ -70,14 +72,16 @@ export class Ingredient {
         quantity: number,
         name: string,
         unit?: string,
-        note?: string,
+        inlineNote?: string,
+        longNote?: string,
         substitutions: Ingredient[][] = []
     ) {
         this._id = id;
         this._name = name;
         this._quantity = quantity;
         this._unit = unit;
-        this._note = note;
+        this._inlineNote = inlineNote;
+        this._longNote = longNote;
         this._substitutions = substitutions;
     }
 
@@ -88,7 +92,8 @@ export class Ingredient {
             json.quantity,
             json.name,
             json.unit ?? undefined,
-            json.note ?? undefined,
+            json.inlineNote ?? undefined,
+            json.longNote ?? undefined,
             (json.substitutions ?? []).map((substitution) =>
                 substitution.map((ingredient) => Ingredient.fromJSON(ingredient))
             )
@@ -102,7 +107,8 @@ export class Ingredient {
             quantity: this._quantity,
             // Coalesce undefined to null for JSON only
             unit: this._unit ?? null,
-            note: this._note ?? null,
+            inlineNote: this._inlineNote ?? null,
+            longNote: this._longNote ?? null,
             substitutions: this._substitutions.map((substitution) =>
                 substitution.map((ingredient) => ingredient.toJSON())
             )
@@ -125,8 +131,12 @@ export class Ingredient {
         return this._unit;
     }
 
-    public get note(): string | undefined {
-        return this._note;
+    public get inlineNote(): string | undefined {
+        return this._inlineNote;
+    }
+
+    public get longNote(): string | undefined {
+        return this._longNote;
     }
 
     public get substitutions(): Ingredient[][] {

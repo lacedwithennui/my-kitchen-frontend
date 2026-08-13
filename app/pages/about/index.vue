@@ -49,9 +49,9 @@ const { citationList, addToCitationList, highlightBibliographyEntry } = useInlin
                     Why do all recipe sites and cookbooks insist on separating the ingredients list from the
                     instructions? Recipes from Hazel's Kitchen show the ingredients and their amounts both in the
                     ingredient list <em>and</em> the instructions. Not only that, but the
-                    <CircleCheckBigIcon class="icon-inline" /> and <ChartPieIcon class="icon-inline" /> icons will tell
-                    you when you're using all of an ingredient in a given step, or just a portion of the whole amount
-                    used in the recipe.
+                    <ChartPieIcon class="icon-inline" /> icon will tell you when you're using just a portion of the
+                    whole amount used in the recipe, so you don't accidentally toss in all the salt in step 3 when you
+                    need some in step 5.
                 </p>
             </section>
             <section>
@@ -61,8 +61,9 @@ const { citationList, addToCitationList, highlightBibliographyEntry } = useInlin
                     buttermilk at the store. Sometimes you start cooking and you realize you didn't buy ground turkey.
                     None of those should be the reason you don't try a delicious dish or miss out on your favorite
                     dinner. The <ArrowLeftRightIcon class="icon-inline" /> icon will show you if there's an easy
-                    substitution I recommend for any ingredients in the recipe. There's also a convenient collection of
-                    all substitutions used in every recipe on this site.
+                    substitution I recommend for any ingredients in the recipe. 
+                    <!-- There's also a convenient collection of
+                    all substitutions used in every recipe on this site. -->
                 </p>
             </section>
             <section>

@@ -12,12 +12,13 @@
             "quantity": 1.5,
             "unit": "pound",
             "name": "top round beef",
-            "note": "You can use anywhere between 1-2 lbs top round beef for this recipe."
+            "longNote": "You can use anywhere between 1-2 lbs top round beef for this recipe."
         },
         {
             "id": "234b6ab5-265c-40b0-ac62-9aa0715416da",
             "quantity": 0.5,
             "name": "large white onion",
+            "inlineNote": "roughly chopped",
             "substitutions": [
                 [
                     {
@@ -43,15 +44,15 @@
             "id": "f7f7b74b-45bd-402b-9e70-3ff1efd8af2b",
             "quantity": 4,
             "unit": "clove",
-            "name": "garlic, peeled & crushed",
-            "note": "Crushed: squish the garlic clove so the inside is exposed, but leave it mostly intact."
+            "name": "garlic",
+            "inlineNote": "peeled and crushed"
         },
         {
             "id": "40bcea98-78ec-42de-88de-025c53318558",
             "quantity": 0.5,
             "unit": "can",
             "name": "chipotles in adobo sauce",
-            "note": "About 4 whole peppers, plus half of the adobo sauce."
+            "longNote": "About 4 whole peppers, plus half of the adobo sauce."
         },
         {
             "id": "3e664508-4f6b-4bf9-8b47-b6e610d54022",

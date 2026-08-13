@@ -22,7 +22,7 @@ defineProps<Props>();
     width: 100%;
     height: auto;
     position: relative;
-    margin-block: 3rem 1rem;
+    margin-block: 1rem;
 }
 
 img {

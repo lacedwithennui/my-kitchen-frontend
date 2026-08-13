@@ -1,22 +1,53 @@
 <script setup lang="ts">
-import { ChartPieIcon, CircleCheckBigIcon, InfoIcon } from "@lucide/vue";
+import { ChartPieIcon, CircleCheckBigIcon, InfoIcon, ArrowLeftRightIcon } from "@lucide/vue";
 import type { Ingredient } from "../utils/models/recipe";
 import IngredientTooltip from "./IngredientTooltip.vue";
 
 interface Props {
     ingredient: Ingredient;
+    quantityOverride?: number | null;
+    unitOverride?: string | null;
+    isFullAmountUsedInRecipe?: boolean;
 }
 
-defineProps<Props>();
+/*
+ * We need to be able to tell the difference between an explicit false and an omitted prop, so make the default
+ * undefined instead of letting Vue coerce a false
+ */
+const props = withDefaults(defineProps<Props>(), { isFullAmountUsedInRecipe: undefined });
+
+const hasTooltip: ComputedRef<boolean> = computed(() =>
+    Boolean(props.ingredient.longNote || props.ingredient.substitutions.length)
+);
+
+// Don't import the tooltip composable logic unless we need it
+const {
+    ingredientContainerRefName,
+    tooltipComponentRefName,
+    handleMouseEnter,
+    handleMouseLeave
+} = hasTooltip.value ? useAdaptiveTooltip() : {};
 </script>
 
 <template>
-    <div class="ingredient-container">
-        <span class="ingredient-wrapper">
+    <div class="ingredient-container" :ref="ingredientContainerRefName">
+        <!-- Conditionally bind event listeners (don't add tooltip listeners if there's no tooltip) -->
+        <!-- Prettier formats the v-on block in a less-readable way. -->
+        <!-- prettier-ignore -->
+        <span
+            class="ingredient-wrapper"
+            v-on="
+                hasTooltip ? {
+                    mouseenter: handleMouseEnter,
+                    mouseleave: handleMouseLeave
+                } : {}
+            "            >
             <span class="ingredient">{{ ingredient.toString() }}</span>
-            <InfoIcon v-if="ingredient.note" />
+            <span class="ingredient-inline-note" v-if="ingredient.inlineNote"> ({{ ingredient.inlineNote }})</span>
+            <ArrowLeftRightIcon v-if="ingredient.substitutions.length" class="icon-inline" />
+            <InfoIcon class="icon-inline note-icon" v-if="ingredient.longNote" />
         </span>
-        <IngredientTooltip :ingredient="ingredient" />
+        <IngredientTooltip v-if="hasTooltip" :ingredient="ingredient" :ref="tooltipComponentRefName" />
     </div>
 </template>
 
@@ -28,55 +59,21 @@ defineProps<Props>();
 
 .ingredient-wrapper {
     display: inline-block;
+}
+
+/* Only give the dashed underline to ingredients with tooltips */
+:has(.ingredient-tooltip) > .ingredient-wrapper {
     cursor: pointer;
+    border-bottom: 2px dashed var(--soft-periwinkle);
 }
 
-.ingredient {
-    color: var(--sunflower-gold);
-    border-bottom: 2px dashed var(--sunflower-gold);
-    margin-right: 5px;
+.ingredient-inline-note {
+    color: var(--ingredient-inline-note-color);
+    font-weight: 600;
 }
 
-.ingredient-tooltip {
-    display: none;
-    position: absolute;
-    z-index: 10;
-    top: 0;
-    left: 100%;
+.icon-inline {
     margin-left: 5px;
-    width: 20rem;
-    box-shadow: 0px 0px 5px var(--box-shadow-color);
-    padding: 1rem;
-    border-radius: 1rem;
-    background-color: var(--background-color);
-}
-
-.ingredient-tooltip .icon-inline {
-    margin-right: 5px;
-}
-
-.ingredient-inline-wrapper:hover + .ingredient-tooltip {
-    display: block;
-}
-
-.substitution-separator {
-    display: flex;
-    align-items: center;
-    text-align: center;
-}
-
-.substitution-separator::before,
-.substitution-separator::after {
-    content: "";
-    flex: 1;
-    border-bottom: 1px solid var(--text-color);
-}
-
-.substitution-separator::before {
-    margin-right: 0.25em;
-}
-
-.substitution-separator::after {
-    margin-left: 0.25em;
+    color: var(--soft-periwinkle);
 }
 </style>
