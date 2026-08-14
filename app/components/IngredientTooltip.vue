@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ArrowLeftRightIcon, ChartPieIcon, CircleCheckBigIcon, InfoIcon } from "@lucide/vue";
-import type { Ingredient } from "~/utils/models/recipe";
+import type { Ingredient } from "../utils/models/recipe";
 
 interface Props {
     isFullAmountUsedInRecipe?: boolean;

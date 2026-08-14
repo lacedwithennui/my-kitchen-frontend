@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { UUID } from "crypto";
-import IngredientComponent from "~/components/Ingredient.vue";
-import { Recipe, type IngredientChunk, type LinkChunk, type RecipeJSON } from "~/utils/models/recipe";
+import Ingredient from "../../components/Ingredient.vue";
+import { Recipe, type IngredientChunk, type LinkChunk, type RecipeJSON } from "../../utils/models/recipe";
 
 const recipeSlug = useRoute().params.slug;
 const recipeJSON = await import(`../../utils/models/${recipeSlug}.json`).catch(() => {
@@ -23,7 +23,7 @@ useHead({ title: `${recipe.name} Recipe | Hazel's Kitchen` });
             <h2>Ingredients</h2>
             <ul>
                 <li v-for="ingredient in recipe.ingredients">
-                    <IngredientComponent :ingredient="ingredient" />
+                    <Ingredient :ingredient="ingredient" />
                 </li>
             </ul>
         </section>
