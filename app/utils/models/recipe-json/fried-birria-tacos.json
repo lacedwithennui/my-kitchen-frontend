@@ -1,0 +1,267 @@
+{
+    "name": "Fried Birria Tacos",
+    "slug": "fried-birria-tacos",
+    "thumbnailURL": "https://5v14irhhfg.ufs.sh/f/IybIEt0oH9UlrsjGcF0IV78IJ3pwSNuKFE6s05jTRUlYanBX",
+    "description": "This is the meal that brought my girlfriend to tears. No really - the tacos pictured above literally made her cry because of how good they were. And guess what? I'm not even making it the traditional way. With beef instead of goat, and canned peppers instead of guajillo and ancho chiles, this recipe becomes way cheaper and more accessible to the average home cook.",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 135,
+    "tags": ["south-and-central-america"],
+    "ingredients": [
+        {
+            "id": "7dcaed44-4ca5-4c1d-be52-b81c2598fb38",
+            "quantity": 1.5,
+            "unit": "pound",
+            "name": "top round beef",
+            "longNote": "You can use anywhere between 1-2 lbs top round beef for this recipe."
+        },
+        {
+            "id": "234b6ab5-265c-40b0-ac62-9aa0715416da",
+            "quantity": 0.5,
+            "name": "large white onion",
+            "inlineNote": "roughly chopped",
+            "substitutions": [
+                [
+                    {
+                        "quantity": 0.5,
+                        "name": "large yellow onion"
+                    }
+                ],
+                [
+                    {
+                        "quantity": 1,
+                        "name": "small white onion"
+                    }
+                ],
+                [
+                    {
+                        "quantity": 1,
+                        "name": "small yellow onion"
+                    }
+                ]
+            ]
+        },
+        {
+            "id": "f7f7b74b-45bd-402b-9e70-3ff1efd8af2b",
+            "quantity": 4,
+            "unit": "clove",
+            "name": "garlic",
+            "inlineNote": "peeled and crushed"
+        },
+        {
+            "id": "40bcea98-78ec-42de-88de-025c53318558",
+            "quantity": 0.5,
+            "unit": "can",
+            "name": "chipotles in adobo sauce",
+            "longNote": "About 4 whole peppers, plus half of the adobo sauce."
+        },
+        {
+            "id": "3e664508-4f6b-4bf9-8b47-b6e610d54022",
+            "quantity": 0.5,
+            "unit": "can",
+            "name": "green chiles"
+        },
+        {
+            "id": "46152cc6-32f7-45af-94af-77153057d353",
+            "quantity": 1,
+            "unit": "can",
+            "name": "tomato sauce",
+            "inlineNote": "15 oz"
+        },
+        {
+            "id": "d2746cfb-e8aa-4a0f-a3dc-a1cc77ce003d",
+            "quantity": 0.5,
+            "unit": "cup",
+            "name": "water"
+        },
+        {
+            "id": "4540e996-b590-4c35-b5a4-9f0644422753",
+            "quantity": 2,
+            "unit": "cup",
+            "name": "beef broth"
+        },
+        {
+            "id": "00c312bf-4f23-462c-88bd-57b484c7a3b3",
+            "quantity": 1,
+            "unit": "tablespoon",
+            "name": "salt"
+        },
+        {
+            "id": "729d2000-5df7-4fcf-8dff-5669abaadf47",
+            "quantity": 1,
+            "unit": "teaspoon",
+            "name": "coarsely-ground black pepper"
+        },
+        {
+            "id": "b5c8708e-cebc-473f-861c-f799438cf766",
+            "quantity": 1,
+            "unit": "teaspoon",
+            "name": "cumin"
+        },
+        {
+            "id": "46f978a0-2b00-4a93-86a6-5d35d2d356bb",
+            "quantity": 1,
+            "unit": "teaspoon",
+            "name": "paprika"
+        },
+        {
+            "id": "fae074fa-acfc-48f4-9a9d-7b02c25c5f53",
+            "quantity": 1,
+            "unit": "dash",
+            "name": "cinnamon"
+        },
+        {
+            "id": "7d9522d4-2378-4e68-a4b3-607412475d97",
+            "quantity": 1,
+            "unit": "tablespoon",
+            "name": "olive oil",
+            "substitutions": [
+                [
+                    {
+                        "quantity": 1,
+                        "unit": "tablespoon",
+                        "name": "avocado oil"
+                    }
+                ]
+            ]
+        }
+    ],
+    "instructions": [
+        [
+            {
+                "type": "text",
+                "content": "Take "
+            },
+            {
+                "type": "ingredient",
+                "content": { "id": "7dcaed44-4ca5-4c1d-be52-b81c2598fb38" }
+            },
+            {
+                "type": "text",
+                "content": " out of the fridge and open the packaging. Then, pat both sides dry with a paper towel and rub "
+            },
+            {
+                "type": "ingredientChain",
+                "content": [
+                    { "id": "00c312bf-4f23-462c-88bd-57b484c7a3b3", "quantity": 2, "unit": "teaspoon" },
+                    { "id": "729d2000-5df7-4fcf-8dff-5669abaadf47" }
+                ]
+            },
+            {
+                "type": "text",
+                "content": " in on both sides on a cutting board. Let it rest outside of the fridge while you do the next few steps."
+            }
+        ],
+        [
+            {
+                "type": "text",
+                "content": "In a dutch oven or large pot over medium-high heat, add "
+            },
+            {
+                "type": "ingredientChain",
+                "content": [
+                    { "id": "234b6ab5-265c-40b0-ac62-9aa0715416da" },
+                    { "id": "f7f7b74b-45bd-402b-9e70-3ff1efd8af2b" },
+                    { "id": "40bcea98-78ec-42de-88de-025c53318558" },
+                    { "id": "3e664508-4f6b-4bf9-8b47-b6e610d54022" },
+                    { "id": "00c312bf-4f23-462c-88bd-57b484c7a3b3", "quantity": 1, "unit": "teaspoon" }
+                ]
+            },
+            {
+                "type": "text",
+                "content": ". Cook until the onions start to "
+            },
+            {
+                "type": "localLink",
+                "content": "sweat",
+                "href": "/blog/cooking-terminology#sweat"
+            },
+            {
+                "type": "text",
+                "content": " and smell (about 5 minutes), stirring occasionally."
+            }
+        ],
+        [
+            {
+                "type": "text",
+                "content": "Add "
+            },
+            {
+                "type": "ingredientChain",
+                "content": [
+                    { "id": "46152cc6-32f7-45af-94af-77153057d353" },
+                    { "id": "d2746cfb-e8aa-4a0f-a3dc-a1cc77ce003d" }
+                ]
+            },
+            {
+                "type": "text",
+                "content": " to the pot and cook for 5 more minutes."
+            }
+        ],
+        [
+            {
+                "type": "text",
+                "content": "Pour or scoop all of the contents of the pot into a blender and blend with the lid on for 1 minute."
+            }
+        ],
+        [
+            {
+                "type": "text",
+                "content": "If the pot is mostly dry now, add "
+            },
+            {
+                "type": "ingredient",
+                "content": { "id": "7d9522d4-2378-4e68-a4b3-607412475d97" }
+            },
+            {
+                "type": "text",
+                "content": ". Sear both sides of your steak in the same pot, about 3 minutes per side for a 1 1/2 inch steak."
+            }
+        ],
+        [
+            {
+                "type": "text",
+                "content": "Set the heat to low, then pour the blended sauce over the seared steak in the pot. Add "
+            },
+            {
+                "type": "ingredientChain",
+                "content": [
+                    { "id": "4540e996-b590-4c35-b5a4-9f0644422753" },
+                    { "id": "b5c8708e-cebc-473f-861c-f799438cf766" },
+                    { "id": "46f978a0-2b00-4a93-86a6-5d35d2d356bb" },
+                    { "id": "fae074fa-acfc-48f4-9a9d-7b02c25c5f53" }
+                ]
+            },
+            {
+                "type": "text",
+                "content": " and mix thoroughly, ensuring the broth and sauce mixture cover the beef completely. If they don't, add 1 cup water (or 1 cup beef broth if you have it)."
+            }
+        ],
+        [
+            {
+                "type": "text",
+                "content": "Cover the pot and let the beef stew for 2 hours, mixing the sauce and flipping the beef every 30 minutes."
+            }
+        ],
+        [
+            {
+                "type": "text",
+                "content": "Carefully take the beef out of the pot and put it in a medium mixing bowl. It will be very soft and prone to falling apart, but you want to avoid leaving small pieces of beef in the sauce. In the bowl, use tongs or two forks to shred up the beef."
+            }
+        ],
+        [
+            {
+                "type": "text",
+                "content": "Your birria beef is ready! If your sauce has thickened, add a cup of water or two, and use it as a consomme for dipping your tacos. See "
+            },
+            {
+                "type": "localLink",
+                "content": "the Fried Birria Tacos recipe",
+                "href": "/recipes/fried-birria-tacos"
+            },
+            {
+                "type": "text",
+                "content": " for how to assemble and fry up some tacos."
+            }
+        ]
+    ]
+}
