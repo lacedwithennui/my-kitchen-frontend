@@ -1,10 +1,8 @@
-<script lang="ts">
-import "./assets/styles/index.css"
-</script>
-
 <template>
+    <NuxtRouteAnnouncer />
     <NuxtLayout>
-        <NuxtRouteAnnouncer />
         <NuxtPage />
     </NuxtLayout>
 </template>
+
+<style src="./assets/styles/index.css"></style>

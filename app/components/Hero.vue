@@ -1,7 +1,6 @@
 <script setup lang="ts">
 interface Props {
     src: string;
-    alt?: string;
 }
 
 defineProps<Props>();
@@ -9,7 +8,7 @@ defineProps<Props>();
 
 <template>
     <div class="hero">
-        <img :src="src" :alt="alt" />
+        <NuxtImg :src="src" />
         <h1 v-if="$slots.default">
             <slot></slot>
         </h1>

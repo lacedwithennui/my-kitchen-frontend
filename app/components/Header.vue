@@ -21,8 +21,8 @@ const toggleMobileMenu = () => {
             <nav class="header-right" :class="{'mobile-menu-open': isMobileMenuOpen}">
                 <NuxtLink class="header-link" to="/"><h3>Home</h3></NuxtLink>
                 <NuxtLink class="header-link" to="/about"><h3>About</h3></NuxtLink>
-                <!-- <NuxtLink class="header-link" to="/substitutions"><h3>Substitution Guide</h3></NuxtLink> -->
                 <NuxtLink class="header-link" to="/blog"><h3>Blog</h3></NuxtLink>
+                <NuxtLink class="header-link" to="/recipes"><h3>Recipes</h3></NuxtLink>
                 <!-- <NuxtLink class="header-link" to="/login"><h3>Log In</h3></NuxtLink> -->
             </nav>
         </div>
@@ -123,7 +123,7 @@ header {
     width: auto;
 }
 
-@media screen and (--tablet-breakpoint) {
+@media (--tablet-breakpoint) {
     .header-right {
         display: none;
         position: absolute;
@@ -131,13 +131,14 @@ header {
         right: 0;
         flex-direction: column;
         background-color: var(--background-color);
-        /* border: 1px solid var(--border-color); */
         box-shadow: 5px 5px 5px var(--box-shadow-color);
         border-top: none;
     }
 
     .header-right.mobile-menu-open {
         display: flex;
+        margin-right: 0px;
+        z-index: var(--medium-z-index);
     }
 
     .header-right .header-link {

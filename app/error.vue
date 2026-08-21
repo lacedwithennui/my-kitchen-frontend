@@ -13,10 +13,12 @@ const errorMessage = computed(() => {
         case 403:
             return "Your account doesn't have access to that page.";
         case 429:
-            return "You're being rate limited. Stop attempting to access this page.";
+            return "You're being rate limited. Stop attempting to access that page.";
     }
     return "An error occurred. Check again soon!";
 });
+
+useHead({ title: "Error" });
 </script>
 
 <template>

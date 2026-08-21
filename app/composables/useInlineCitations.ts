@@ -2,26 +2,26 @@ import { ref } from "vue";
 import type { CitationList } from "../utils/models/citation.ts";
 
 export function useInlineCitations() {
-    const citationList = ref<CitationList>({});
-    const lastCitationDisplayIndex = ref(0);
+    const citationList = shallowRef<CitationList>({});
+    const citationListLength = ref(0);
 
     const addToCitationList = (href: string, displayText: string) => {
-        if (!Object.hasOwn(citationList.value, href)) {
+        if (!citationList.value[href]) {
             citationList.value[href] = {
                 href,
                 displayText,
-                displayIndex: ++lastCitationDisplayIndex.value
+                displayIndex: ++citationListLength.value
             };
         }
-        return lastCitationDisplayIndex.value;
+        return citationListLength.value;
     };
 
     const highlightBibliographyEntry = (href: string, timeoutId?: number) => {
-        if (!Object.hasOwn(citationList.value, href)) {
+        if (!citationList.value[href]) {
             return;
         }
         const bibliographyCitation = document.getElementById(
-            `bibliography-citation-${citationList.value[href]!.displayIndex}`
+            `bibliography-citation-${citationList.value[href].displayIndex}`
         );
         if (!bibliographyCitation) {
             return;

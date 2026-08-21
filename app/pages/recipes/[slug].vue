@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import type { UUID } from "crypto";
 import Ingredient from "../../components/Ingredient.vue";
-import { Recipe, type IngredientChunk, type LinkChunk, type RecipeJSON } from "../../utils/models/recipe";
+import { Recipe, type LinkChunk, type RecipeJSON } from "../../utils/models/recipe";
 
 const recipeSlug = useRoute().params.slug;
-const recipeJSON = await import(`../../utils/models/${recipeSlug}.json`).catch(() => {
+const recipeJSON = await import(`../../utils/models/recipe-json/${recipeSlug}.json`).catch(() => {
     throw createError({ status: 404, fatal: true });
 });
-// @!ts-expect-error
 const recipe = Recipe.fromJSON(recipeJSON as RecipeJSON);
 const ingredientMap = computed(() => new Map(recipe.ingredients.map((ingredient) => [ingredient.id, ingredient])));
+const getIngredientFromMap = (id: UUID) => ingredientMap.value.get(id);
 
-useHead({ title: `${recipe.name} Recipe | Hazel's Kitchen` });
+useHead({ title: `${recipe.name} Recipe` });
 </script>
 
 <template>
@@ -34,21 +34,22 @@ useHead({ title: `${recipe.name} Recipe | Hazel's Kitchen` });
                     <template v-for="chunk in instruction">
                         <template v-if="chunk.type === 'text'">{{ chunk.content }}</template>
 
-                        <InlineIngredient
+                        <Ingredient
                             v-if="chunk.type === 'ingredient'"
-                            :ingredient="
-                                ingredientMap.get((chunk as IngredientChunk).content.id as UUID)!
-                            "></InlineIngredient>
+                            :ingredient="chunk.content"
+                            :get-ingredient-from-map="getIngredientFromMap"
+                            with-chunk
+                            inline />
 
                         <template
                             v-else-if="chunk.type === 'ingredientChain'"
-                            v-for="(inlineIngredient, index) in chunk.content">
+                            v-for="(ingredient, index) in chunk.content">
                             <!-- This enforces a "foo, bar, and baz" (oxford comma) format -->
-                            <InlineIngredient
-                                :ingredient="ingredientMap.get(inlineIngredient.id as UUID)!"
-                                :quantity-override="inlineIngredient.quantity"
-                                :unit-override="inlineIngredient.unit"
-                                :is-full-amount-used-in-recipe="!Object.hasOwn(inlineIngredient, 'quantity')" />
+                            <Ingredient
+                                :ingredient="ingredient"
+                                :get-ingredient-from-map="getIngredientFromMap"
+                                with-chunk
+                                inline />
                             <template v-if="index < chunk.content.length - 1 && chunk.content.length > 2">, </template>
                             <template v-if="index < chunk.content.length - 1 && chunk.content.length === 2">{{
                                 " "
@@ -69,3 +70,13 @@ useHead({ title: `${recipe.name} Recipe | Hazel's Kitchen` });
         </section>
     </main>
 </template>
+
+<style>
+.instructions li {
+    margin-bottom: 0.5em;
+}
+
+.instructions li::marker {
+    font-weight: bold;
+}
+</style>

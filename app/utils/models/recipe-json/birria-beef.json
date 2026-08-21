@@ -5,14 +5,17 @@
     "description": "This is the meal that brought my girlfriend to tears. No really - the tacos pictured above literally made her cry because of how good they were. And guess what? I'm not even making it the traditional way. With beef instead of goat, and canned peppers instead of guajillo and ancho chiles, this recipe becomes way cheaper and more accessible to the average home cook.",
     "prepTimeMinutes": 10,
     "cookTimeMinutes": 135,
-    "tags": ["south-and-central-america"],
+    "tags": [
+        "latin-america"
+    ],
     "ingredients": [
         {
             "id": "7dcaed44-4ca5-4c1d-be52-b81c2598fb38",
             "quantity": 1.5,
             "unit": "pound",
             "name": "top round beef",
-            "longNote": "You can use anywhere between 1-2 lbs top round beef for this recipe."
+            "longNote": "You can use anywhere between 1-2 lbs top round beef for this recipe.",
+            "substitutions": []
         },
         {
             "id": "234b6ab5-265c-40b0-ac62-9aa0715416da",
@@ -45,74 +48,107 @@
             "quantity": 4,
             "unit": "clove",
             "name": "garlic",
-            "inlineNote": "peeled and crushed"
+            "inlineNote": "peeled and crushed",
+            "substitutions": []
         },
         {
             "id": "40bcea98-78ec-42de-88de-025c53318558",
             "quantity": 0.5,
             "unit": "can",
             "name": "chipotles in adobo sauce",
-            "longNote": "About 4 whole peppers, plus half of the adobo sauce."
+            "longNote": "About 4 whole peppers, plus half of the adobo sauce.",
+            "substitutions": []
         },
         {
             "id": "3e664508-4f6b-4bf9-8b47-b6e610d54022",
             "quantity": 0.5,
             "unit": "can",
-            "name": "green chiles"
+            "name": "green chiles",
+            "substitutions": []
         },
         {
             "id": "46152cc6-32f7-45af-94af-77153057d353",
             "quantity": 1,
             "unit": "can",
-            "name": "(15 oz) tomato sauce"
+            "name": "tomato sauce",
+            "inlineNote": "15 oz",
+            "substitutions": []
         },
         {
             "id": "d2746cfb-e8aa-4a0f-a3dc-a1cc77ce003d",
             "quantity": 0.5,
             "unit": "cup",
-            "name": "water"
+            "name": "water",
+            "substitutions": []
         },
         {
             "id": "4540e996-b590-4c35-b5a4-9f0644422753",
             "quantity": 2,
             "unit": "cup",
-            "name": "beef broth"
+            "name": "beef broth",
+            "substitutions": [
+                [
+                    {
+                        "quantity": 2,
+                        "unit": "cup",
+                        "name": "beef stock"
+                    }
+                ],
+                [
+                    {
+                        "quantity": 2,
+                        "unit": "cup",
+                        "name": "water"
+                    },
+                    {
+                        "quantity": 1,
+                        "unit": "tsp",
+                        "name": "better than bullion beef flavor"
+                    }
+                ]
+            ]
         },
         {
             "id": "00c312bf-4f23-462c-88bd-57b484c7a3b3",
             "quantity": 1,
             "unit": "tablespoon",
-            "name": "salt"
+            "name": "salt",
+            "substitutions": []
         },
         {
             "id": "729d2000-5df7-4fcf-8dff-5669abaadf47",
             "quantity": 1,
             "unit": "teaspoon",
-            "name": "coarsely-ground black pepper"
+            "name": "coarsely-ground black pepper",
+            "substitutions": []
         },
         {
             "id": "b5c8708e-cebc-473f-861c-f799438cf766",
             "quantity": 1,
             "unit": "teaspoon",
-            "name": "cumin"
+            "name": "cumin",
+            "substitutions": []
         },
         {
             "id": "46f978a0-2b00-4a93-86a6-5d35d2d356bb",
             "quantity": 1,
             "unit": "teaspoon",
-            "name": "paprika"
+            "name": "paprika",
+            "substitutions": []
         },
         {
             "id": "fae074fa-acfc-48f4-9a9d-7b02c25c5f53",
             "quantity": 1,
             "unit": "dash",
-            "name": "cinnamon"
+            "name": "cinnamon",
+            "substitutions": []
         },
         {
             "id": "7d9522d4-2378-4e68-a4b3-607412475d97",
             "quantity": 1,
             "unit": "tablespoon",
             "name": "olive oil",
+            "inlineNote": "optional",
             "substitutions": [
                 [
                     {
@@ -132,7 +168,9 @@
             },
             {
                 "type": "ingredient",
-                "content": { "id": "7dcaed44-4ca5-4c1d-be52-b81c2598fb38" }
+                "content": {
+                    "id": "7dcaed44-4ca5-4c1d-be52-b81c2598fb38"
+                }
             },
             {
                 "type": "text",
@@ -141,8 +179,14 @@
             {
                 "type": "ingredientChain",
                 "content": [
-                    { "id": "00c312bf-4f23-462c-88bd-57b484c7a3b3", "quantity": 2, "unit": "teaspoon" },
-                    { "id": "729d2000-5df7-4fcf-8dff-5669abaadf47" }
+                    {
+                        "id": "00c312bf-4f23-462c-88bd-57b484c7a3b3",
+                        "quantity": 2,
+                        "unit": "teaspoon"
+                    },
+                    {
+                        "id": "729d2000-5df7-4fcf-8dff-5669abaadf47"
+                    }
                 ]
             },
             {
@@ -158,11 +202,23 @@
             {
                 "type": "ingredientChain",
                 "content": [
-                    { "id": "234b6ab5-265c-40b0-ac62-9aa0715416da" },
-                    { "id": "f7f7b74b-45bd-402b-9e70-3ff1efd8af2b" },
-                    { "id": "40bcea98-78ec-42de-88de-025c53318558" },
-                    { "id": "3e664508-4f6b-4bf9-8b47-b6e610d54022" },
-                    { "id": "00c312bf-4f23-462c-88bd-57b484c7a3b3", "quantity": 1, "unit": "teaspoon" }
+                    {
+                        "id": "234b6ab5-265c-40b0-ac62-9aa0715416da"
+                    },
+                    {
+                        "id": "f7f7b74b-45bd-402b-9e70-3ff1efd8af2b"
+                    },
+                    {
+                        "id": "40bcea98-78ec-42de-88de-025c53318558"
+                    },
+                    {
+                        "id": "3e664508-4f6b-4bf9-8b47-b6e610d54022"
+                    },
+                    {
+                        "id": "00c312bf-4f23-462c-88bd-57b484c7a3b3",
+                        "quantity": 1,
+                        "unit": "teaspoon"
+                    }
                 ]
             },
             {
@@ -187,8 +243,12 @@
             {
                 "type": "ingredientChain",
                 "content": [
-                    { "id": "46152cc6-32f7-45af-94af-77153057d353" },
-                    { "id": "d2746cfb-e8aa-4a0f-a3dc-a1cc77ce003d" }
+                    {
+                        "id": "46152cc6-32f7-45af-94af-77153057d353"
+                    },
+                    {
+                        "id": "d2746cfb-e8aa-4a0f-a3dc-a1cc77ce003d"
+                    }
                 ]
             },
             {
@@ -209,7 +269,9 @@
             },
             {
                 "type": "ingredient",
-                "content": { "id": "7d9522d4-2378-4e68-a4b3-607412475d97" }
+                "content": {
+                    "id": "7d9522d4-2378-4e68-a4b3-607412475d97"
+                }
             },
             {
                 "type": "text",
@@ -224,10 +286,18 @@
             {
                 "type": "ingredientChain",
                 "content": [
-                    { "id": "4540e996-b590-4c35-b5a4-9f0644422753" },
-                    { "id": "b5c8708e-cebc-473f-861c-f799438cf766" },
-                    { "id": "46f978a0-2b00-4a93-86a6-5d35d2d356bb" },
-                    { "id": "fae074fa-acfc-48f4-9a9d-7b02c25c5f53" }
+                    {
+                        "id": "4540e996-b590-4c35-b5a4-9f0644422753"
+                    },
+                    {
+                        "id": "b5c8708e-cebc-473f-861c-f799438cf766"
+                    },
+                    {
+                        "id": "46f978a0-2b00-4a93-86a6-5d35d2d356bb"
+                    },
+                    {
+                        "id": "fae074fa-acfc-48f4-9a9d-7b02c25c5f53"
+                    }
                 ]
             },
             {

@@ -5,6 +5,8 @@ import InlineCitation from "../../components/InlineCitation.vue";
 import { useInlineCitations } from "../../composables/useInlineCitations.ts";
 
 const { citationList, addToCitationList, highlightBibliographyEntry } = useInlineCitations();
+
+useHead({ title: "About" });
 </script>
 
 <template>
@@ -61,7 +63,7 @@ const { citationList, addToCitationList, highlightBibliographyEntry } = useInlin
                     buttermilk at the store. Sometimes you start cooking and you realize you didn't buy ground turkey.
                     None of those should be the reason you don't try a delicious dish or miss out on your favorite
                     dinner. The <ArrowLeftRightIcon class="icon-inline" /> icon will show you if there's an easy
-                    substitution I recommend for any ingredients in the recipe. 
+                    substitution I recommend for any ingredients in the recipe.
                     <!-- There's also a convenient collection of
                     all substitutions used in every recipe on this site. -->
                 </p>

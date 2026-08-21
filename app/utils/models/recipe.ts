@@ -9,6 +9,7 @@ export type IngredientJSON = {
     name: string;
     inlineNote?: string | null;
     longNote?: string | null;
+    // Substitution ingredients themselves do not have substitution arrays and are considered Ingredients
     substitutions?: IngredientJSON[][] | null;
 };
 
@@ -43,7 +44,7 @@ export type InstructionChunk = TextChunk | IngredientChunk | IngredientChainChun
 
 type Instruction = InstructionChunk[];
 
-export type RecipeJSON = {
+export type RecipeMetadata = {
     name: string;
     slug: string;
     thumbnailURL: string;
@@ -51,6 +52,9 @@ export type RecipeJSON = {
     prepTimeMinutes?: number | null;
     cookTimeMinutes?: number | null;
     tags: string[];
+};
+
+export type RecipeJSON = RecipeMetadata & {
     ingredients: IngredientJSON[];
     instructions: Instruction[];
 };
@@ -62,7 +66,7 @@ export class Ingredient {
     private _unit?: string;
     private _inlineNote?: string;
     private _longNote?: string;
-    private _substitutions: Ingredient[][] = [];
+    private _substitutions: Ingredient[][];
 
     /**
      * {@linkcode Ingredient.fromJSON()} is the only valid way to construct a new Ingredient instance.
@@ -71,18 +75,18 @@ export class Ingredient {
         id: UUID = crypto.randomUUID(),
         quantity: number,
         name: string,
+        substitutions: Ingredient[][] = [],
         unit?: string,
         inlineNote?: string,
-        longNote?: string,
-        substitutions: Ingredient[][] = []
+        longNote?: string
     ) {
         this._id = id;
         this._name = name;
         this._quantity = quantity;
+        this._substitutions = substitutions;
         this._unit = unit;
         this._inlineNote = inlineNote;
         this._longNote = longNote;
-        this._substitutions = substitutions;
     }
 
     public static fromJSON(json: IngredientJSON): Ingredient {
@@ -91,12 +95,12 @@ export class Ingredient {
             json.id as UUID,
             json.quantity,
             json.name,
-            json.unit ?? undefined,
-            json.inlineNote ?? undefined,
-            json.longNote ?? undefined,
             (json.substitutions ?? []).map((substitution) =>
                 substitution.map((ingredient) => Ingredient.fromJSON(ingredient))
-            )
+            ),
+            json.unit ?? undefined,
+            json.inlineNote ?? undefined,
+            json.longNote ?? undefined
         );
     }
 
@@ -123,12 +127,20 @@ export class Ingredient {
         return this._name;
     }
 
-    public get quantity(): number {
+    public get rawQuantity(): number {
         return this._quantity;
     }
 
-    public get unit(): string | undefined {
+    public get quantity(): string {
+        return fractionalizeQuantity(this._quantity);
+    }
+
+    public get rawUnit(): string | undefined {
         return this._unit;
+    }
+
+    public get unit(): string | undefined {
+        return this._unit ? pluralizeUnit(this._unit, this._quantity) : undefined;
     }
 
     public get inlineNote(): string | undefined {
@@ -143,35 +155,32 @@ export class Ingredient {
         return this._substitutions;
     }
 
-    public getFractionalizedQuantity() {
-        return fractionalizeQuantity(this.quantity);
-    }
-
-    public toScaledString(scaleFactor: number) {
-        const json = this.toJSON();
-        json.quantity *= scaleFactor;
-        if (json.unit) {
-            json.unit = pluralizeUnit(json.unit, json.quantity);
-        }
-        return Ingredient.fromJSON(json).toString();
-    }
-
-    public toAbbreviatedString(): string {
-        return `${this.getFractionalizedQuantity()} ${this._unit ? pluralizeUnit(abbreviateUnit(this._unit), this._quantity) + " " : ""}${this._name}`;
-    }
-
-    // TODO: handle overrides more comprehensively - they should help calculate substitution scale factor in inline ingredient tooltips.
-    public toAbbreviatedStringWithOverrides(quantityOverride: number, unitOverride?: string) {
-        return `${fractionalizeQuantity(quantityOverride)} ${unitOverride ? pluralizeUnit(abbreviateUnit(unitOverride), quantityOverride) + " " : ""}${this._name}`;
-    }
-
     /**
      * Get this ingredient as a string in the format "quantity (unit? )name", e.g.
      * "1 lb ground beef" or "2 eggs"
      * @returns A string representation of the ingredient in the format "quantity (unit? )name"
      */
     public toString(): string {
-        return `${this.getFractionalizedQuantity()} ${this._unit ? pluralizeUnit(this._unit, this._quantity) + " " : ""}${this._name}`;
+        return `${this.quantity} ${this._unit ? this.unit + " " : ""}${this._name}`;
+    }
+
+    public toStringWithOverrides(quantityOverride: number, unitOverride?: string) {
+        return `${fractionalizeQuantity(quantityOverride)} ${unitOverride ? pluralizeUnit(unitOverride, quantityOverride) + " " : this._unit ? this.unit + " " : ""}${this._name}`;
+    }
+
+    public toScaledString(scaleFactor: number) {
+        const quantity = this._quantity * scaleFactor;
+        const unit = this._unit ? pluralizeUnit(this._unit, quantity) : undefined;
+        return this.toStringWithOverrides(quantity, unit);
+    }
+
+    public toAbbreviatedString(): string {
+        return `${this.quantity} ${this._unit ? pluralizeUnit(abbreviateUnit(this._unit), this._quantity) + " " : ""}${this._name}`;
+    }
+
+    // TODO: handle overrides more comprehensively - they should help calculate substitution scale factor in inline ingredient tooltips.
+    public toAbbreviatedStringWithOverrides(quantityOverride: number, unitOverride?: string) {
+        return `${fractionalizeQuantity(quantityOverride)} ${unitOverride ? pluralizeUnit(abbreviateUnit(unitOverride), quantityOverride) + " " : ""}${this._name}`;
     }
 }
 
@@ -181,7 +190,7 @@ export class Recipe {
     private _description?: string;
     private _ingredients: Ingredient[];
     private _instructions: Instruction[];
-    private _tags: string[] = [];
+    private _tags: string[];
     private _thumbnailURL: URL;
     private _prepTimeMinutes?: number;
     private _cookTimeMinutes?: number;
@@ -192,6 +201,7 @@ export class Recipe {
     private constructor(
         name: string,
         slug: string,
+        tags: string[],
         ingredients: Ingredient[],
         instructions: Instruction[],
         thumbnailURL: URL,
@@ -201,6 +211,7 @@ export class Recipe {
     ) {
         this._name = name;
         this._slug = slug;
+        this._tags = tags;
         this._ingredients = ingredients;
         this._instructions = instructions;
         this._description = description;
@@ -225,6 +236,7 @@ export class Recipe {
         return new Recipe(
             json.name,
             json.slug,
+            json.tags,
             json.ingredients.map((ingredient) => Ingredient.fromJSON(ingredient)),
             json.instructions,
             new URL(json.thumbnailURL),
@@ -268,7 +280,7 @@ export class Recipe {
         return this._instructions;
     }
 
-    public get tags(): string[] | undefined {
+    public get tags(): string[] {
         return this._tags;
     }
 
@@ -289,29 +301,24 @@ export class Recipe {
         return totalTime > 0 ? totalTime : undefined;
     }
 
-    public prepTimeFormatted(): string | undefined {
-        if (this._prepTimeMinutes === undefined) return undefined;
-        const hours = Math.floor(this._prepTimeMinutes / 60);
-        const minutes = this._prepTimeMinutes % 60;
-        return `${hours > 0 ? hours + "h " : ""}${minutes > 0 ? " " + minutes + "m" : ""}`;
+    formatFromMinutes(minutes: number = 0): string {
+        const hoursSlice = Math.floor(minutes / 60);
+        const minutesSlice = minutes % 60;
+        return `${hoursSlice > 0 ? hoursSlice + "h " : ""}${minutesSlice > 0 ? " " + minutesSlice + "m" : ""}`;
     }
 
-    public cookTimeFormatted(): string | undefined {
-        if (this._cookTimeMinutes === undefined) return undefined;
-        const hours = Math.floor(this._cookTimeMinutes / 60);
-        const minutes = this._cookTimeMinutes % 60;
-        return `${hours > 0 ? hours + "h " : ""}${minutes > 0 ? " " + minutes + "m" : ""}`;
+    public get prepTime(): string | undefined {
+        // Need to explicitly check for undefined because 0 is falsy
+        return this._prepTimeMinutes === undefined ? undefined : this.formatFromMinutes(this._prepTimeMinutes);
     }
 
-    public totalTimeFormatted(): string | undefined {
-        const totalTime = this.totalTimeMinutes;
-        if (totalTime === undefined) return undefined;
-        const hours = Math.floor(totalTime / 60);
-        const minutes = totalTime % 60;
-        return `${hours > 0 ? hours + "h " : ""}${minutes > 0 ? " " + minutes + "m" : ""}`;
+    public get cookTime(): string | undefined {
+        // Need to explicitly check for undefined because 0 is falsy
+        return this._cookTimeMinutes === undefined ? undefined : this.formatFromMinutes(this._cookTimeMinutes);
     }
 
-    public ingredientsFormatted(): string[] {
-        return this._ingredients.map((ingredient) => ingredient.toString());
+    public get totalTime(): string | undefined {
+        // Need to explicitly check for undefined because 0 is falsy
+        return this.totalTimeMinutes === undefined ? undefined : this.formatFromMinutes(this.totalTimeMinutes);
     }
 }

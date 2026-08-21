@@ -3,12 +3,13 @@ import { ArrowLeftRightIcon, ChartPieIcon, CircleCheckBigIcon, InfoIcon } from "
 import type { Ingredient } from "../utils/models/recipe";
 
 interface Props {
-    isFullAmountUsedInRecipe?: boolean;
     ingredient: Ingredient;
+    isFullAmountUsedInRecipe?: boolean;
+    handleMouseEnter?: () => void;
+    handleMouseLeave?: () => void;
 }
 
-const tooltipRefName = "ingredient-tooltip";
-const tooltipRef = useTemplateRef<HTMLDivElement>(tooltipRefName);
+const tooltipRef = useTemplateRef<HTMLDivElement>("ingredient-tooltip");
 
 defineExpose({ tooltipRef });
 
@@ -20,24 +21,26 @@ withDefaults(defineProps<Props>(), { isFullAmountUsedInRecipe: undefined });
 </script>
 
 <template>
-    <div class="ingredient-tooltip" :ref="tooltipRefName">
+    <div
+        class="ingredient-tooltip"
+        ref="ingredient-tooltip"
+        @mouseenter="handleMouseEnter"
+        @mouseleave="handleMouseLeave">
         <p v-if="isFullAmountUsedInRecipe">
             <CircleCheckBigIcon class="icon-inline" />This is all of the {{ ingredient.name }} listed in the ingredients
             list.
         </p>
-        <!-- Only show this tooltip if isFullAmountUsedInRecipe is explicitly defined as false; ignore other falsy values -->
-        <p
-            v-else-if="
-                isFullAmountUsedInRecipe !== null &&
-                isFullAmountUsedInRecipe !== undefined &&
-                isFullAmountUsedInRecipe === false
-            ">
+        <!-- Ignore other falsy values like undefined -->
+        <p v-else-if="isFullAmountUsedInRecipe === false">
             <ChartPieIcon class="icon-inline" />This is just a portion of the full amount of
             {{ ingredient.name }} listed in the ingredients list.
         </p>
+
         <p v-if="ingredient.longNote"><InfoIcon class="icon-inline" />{{ ingredient.longNote }}</p>
-        <!-- <hr v-if="ingredient.substitutions.length" /> -->
-        <p v-if="ingredient.substitutions.length" class="substitutions-header"><ArrowLeftRightIcon class="icon-inline" />Substitute for:</p>
+
+        <p v-if="ingredient.substitutions.length" class="substitutions-header">
+            <ArrowLeftRightIcon class="icon-inline" />Substitute for:
+        </p>
         <div v-for="(substitution, index) in ingredient.substitutions" class="substitution">
             <p v-for="substitutionIngredient in substitution">
                 {{ substitutionIngredient.toString() }}
@@ -49,9 +52,13 @@ withDefaults(defineProps<Props>(), { isFullAmountUsedInRecipe: undefined });
 </template>
 
 <style scoped>
+p {
+    margin: 0px;
+}
+
 .ingredient-tooltip {
     position: absolute;
-    z-index: 10;
+    z-index: var(--high-z-index);
     top: 0px;
     left: calc(100% + 5px);
     width: 20rem;
@@ -75,7 +82,7 @@ withDefaults(defineProps<Props>(), { isFullAmountUsedInRecipe: undefined });
     transform: translateX(-50%);
 }
 
-.ingredient-tooltip.above-inline:not(.left-of-inline, .centered-on-screen) {
+.ingredient-tooltip:not(.left-of-inline, .centered-on-screen).above-inline {
     top: 100%;
     transform: translateY(-100%);
 }
@@ -89,7 +96,7 @@ withDefaults(defineProps<Props>(), { isFullAmountUsedInRecipe: undefined });
  * If this selector is satisfied, then position on the container will be static, so we can't rely on absolute
  * positioning rules relative to the ingredient wrapper.
  */
-.ingredient-tooltip.above-inline.centered-on-screen {
+.ingredient-tooltip.centered-on-screen.above-inline {
     margin-top: calc(-1em * var(--line-height));
     transform: translate(-50%, -100%);
 }
@@ -98,18 +105,6 @@ withDefaults(defineProps<Props>(), { isFullAmountUsedInRecipe: undefined });
     margin-right: 5px;
     color: var(--text-color);
 }
-
-/* We neeed more contol over what happens on hover, so this is handled by script */
-/* .ingredient-inline-wrapper:hover + .ingredient-tooltip {
-    display: block;
-} */
-
-/* .substitutions-header {
-    width: 100%;
-    display: inline-flex;
-    justify-content: space-between;
-    align-items: center;
-} */
 
 .substitution-separator {
     display: flex;
@@ -130,9 +125,5 @@ withDefaults(defineProps<Props>(), { isFullAmountUsedInRecipe: undefined });
 
 .substitution-separator::after {
     margin-left: 0.25em;
-}
-
-p {
-    margin: 0px;
 }
 </style>

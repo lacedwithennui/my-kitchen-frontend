@@ -4,6 +4,9 @@
     /* Layout */
     --content-width: 960px;
     --minimum-margin: 1rem;
+    --medium-z-index: 10;
+    --high-z-index: 100;
+    --extreme-z-index: 1000;
 
     /* Typography */
     --root-font-size: 18px;
