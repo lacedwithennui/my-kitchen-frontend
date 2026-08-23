@@ -1,5 +1,23 @@
-# Vue 3 + TypeScript + Vite
+# Hazel's Kitchen
+Hazel's Kitchen is a Nuxt recipe site with Vue 3 and TypeScript. It is built without the help of AI/LLMs as an exercise for the developer.
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+# Setup
+`npm i` to install packages and dependencies
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+`npm run dev` to run a development server
+
+`npm run generate` to generate static HTML for all pages (SSG)
+
+`npm run build` to create a production build (SSR)
+
+
+# Principles
+This project follows a few rules to keep code readable, maintainable, and efficient:
+- Apply readability rules from Clean Code by Robert C. Martin.
+    - Variable and function names should convey intent.
+    - Verbosity is better than code you can't understand.
+    - Functions should be small reusable. A given function should encapsulate a single idea or piece of logic.
+    - Comment any logic that isn't immediately understandable by looking at the code, once again with the aim of conveying intent.
+- Prioritize `undefined` instead of empty strings, zeros, and objects. This makes it easier to check for missing values instead of just falsy ones.
+    - The exception to this rule is arrays. Empty arrays are used instead of `undefined` or `null` because mapping functions and loops can run safely on them. Truthiness checks should be on the array's `length` property.
+- Use `null` in JSON, and `undefined` in objects and classes. Use the nullish coalescing operator `??` to convert between them as needed.
