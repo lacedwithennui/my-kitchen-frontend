@@ -10,7 +10,6 @@ Hazel's Kitchen is a Nuxt recipe site with Vue 3 and TypeScript. It is built wit
 
 `npm run build` to create a production build (SSR)
 
-<<<<<<< HEAD
 # Principles
 This project follows a few rules to keep code readable, maintainable, efficient, and performant:
 - Never use AI tools, including Agent-based IDEs, generative autocomplete, and standalone LLMs, when writing or reviewing this project.
@@ -24,16 +23,3 @@ This project follows a few rules to keep code readable, maintainable, efficient,
     - Comment any logic that isn't immediately understandable by looking at the code, once again with the aim of conveying intent.
 - Prioritize `undefined` instead of empty strings, zeros, and empty objects. This makes it easier to check for missing values instead of just falsy ones.
     - The exception to this rule is arrays. Empty arrays are used instead of `undefined` or `null` because pushing and mapping functions can run safely on them. Truthiness checks should be on the array's `length` property.
-=======
-
-# Principles
-This project follows a few rules to keep code readable, maintainable, and efficient:
-- Apply readability rules from Clean Code by Robert C. Martin.
-    - Variable and function names should convey intent.
-    - Verbosity is better than code you can't understand.
-    - Functions should be small reusable. A given function should encapsulate a single idea or piece of logic.
-    - Comment any logic that isn't immediately understandable by looking at the code, once again with the aim of conveying intent.
-- Prioritize `undefined` instead of empty strings, zeros, and objects. This makes it easier to check for missing values instead of just falsy ones.
-    - The exception to this rule is arrays. Empty arrays are used instead of `undefined` or `null` because mapping functions and loops can run safely on them. Truthiness checks should be on the array's `length` property.
->>>>>>> e95e2aad8a76197c9ddd4045a08026beaeafde93
-- Use `null` in JSON, and `undefined` in objects and classes. Use the nullish coalescing operator `??` to convert between them as needed.
