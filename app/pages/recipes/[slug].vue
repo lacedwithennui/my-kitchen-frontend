@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { UUID } from "crypto";
 import Ingredient from "../../components/Ingredient.vue";
-import { Recipe, type LinkChunk, type RecipeJSON } from "../../utils/models/recipe";
+import { Recipe, type RecipeJSON } from "../../utils/models/recipe/recipe.ts";
+import type { LinkChunk } from "../../utils/models/shared/ast.ts";
 
 const recipeSlug = useRoute().params.slug;
 const recipeJSON = await import(`../../utils/models/recipe-json/${recipeSlug}.json`).catch(() => {

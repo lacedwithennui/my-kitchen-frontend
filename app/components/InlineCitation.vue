@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, onUpdated } from "vue";
-import type { CitationList } from "../utils/models/citation";
+import type { CitationList } from "../utils/models/shared/citation";
 interface Props {
     href: string;
     displayText: string;

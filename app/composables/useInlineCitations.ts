@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import type { CitationList } from "../utils/models/citation.ts";
+import type { CitationList } from "../utils/models/shared/citation.ts";
 
 export function useInlineCitations() {
     const citationList = shallowRef<CitationList>({});

@@ -21,3 +21,4 @@ This project follows a few rules to keep code readable, maintainable, and effici
 - Prioritize `undefined` instead of empty strings, zeros, and objects. This makes it easier to check for missing values instead of just falsy ones.
     - The exception to this rule is arrays. Empty arrays are used instead of `undefined` or `null` because mapping functions and loops can run safely on them. Truthiness checks should be on the array's `length` property.
 - Use `null` in JSON, and `undefined` in objects and classes. Use the nullish coalescing operator `??` to convert between them as needed.
+- Be explicit with types. TypeScript may infer types for many properties and functions, but in the interest of readability (especially in older IDEs and text editors), types should be written out when they can't be immediately inferred, either by TypeScript OR the developer.

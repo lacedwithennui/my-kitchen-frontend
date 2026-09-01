@@ -1,0 +1,11 @@
+{
+    "name": "Birria Beef",
+    "slug": "birria-beef",
+    "description": "This is the meal that brought my girlfriend to tears. No really - the tacos pictured above literally made her cry because of how good they were. And guess what? I'm not even making it the traditional way. With beef instead of goat, and canned peppers instead of guajillo and ancho chiles, this recipe becomes way cheaper and more accessible to the average home cook.",
+    "prepTimeMinutes": 10,
+    "cookTimeMinutes": 135,
+    "tags": [
+        "beginner"
+    ],
+    "content": []
+}

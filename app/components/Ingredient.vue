@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ArrowLeftRightIcon, ChartPieIcon, InfoIcon } from "@lucide/vue";
 import type { UUID } from "crypto";
-import type { Ingredient, InlineIngredient } from "../utils/models/recipe";
+import type { Ingredient, InlineIngredient } from "../utils/models/recipe/recipe.ts";
 import IngredientTooltip from "./IngredientTooltip.vue";
 
 interface Props {

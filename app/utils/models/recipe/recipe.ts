@@ -1,5 +1,6 @@
 import type { UUID } from "crypto";
 import { abbreviateUnit, fractionalizeQuantity, pluralizeUnit } from "./measurements.ts";
+import type { LinkChunk, TextChunk } from "../shared/ast.ts";
 
 export type IngredientJSON = {
     // Accept UUIDs as strings for more seamless type checking against raw JSON
@@ -9,13 +10,11 @@ export type IngredientJSON = {
     name: string;
     inlineNote?: string | null;
     longNote?: string | null;
-    // Substitution ingredients themselves do not have substitution arrays and are considered Ingredients
+    /* 
+     * Substitution ingredients themselves do not have substitution arrays and are considered Ingredients, so we break
+     * the "empty arrays instead of null/undefined" rule here.
+     */
     substitutions?: IngredientJSON[][] | null;
-};
-
-export type TextChunk = {
-    type: "text";
-    content: string;
 };
 
 export type InlineIngredient = {
@@ -32,12 +31,6 @@ export type IngredientChunk = {
 export type IngredientChainChunk = {
     type: "ingredientChain";
     content: InlineIngredient[];
-};
-
-export type LinkChunk = {
-    type: "externalLink" | "localLink";
-    content: string;
-    href: string;
 };
 
 export type InstructionChunk = TextChunk | IngredientChunk | IngredientChainChunk | LinkChunk;
@@ -221,15 +214,13 @@ export class Recipe {
     }
 
     public static fromJSON(json: RecipeJSON): Recipe {
-        if (json.thumbnailURL) {
-            try {
-                const thumbnailURLasURL = new URL(json.thumbnailURL);
-                if (thumbnailURLasURL.protocol !== "https:") {
-                    throw new Error("Error in thumbnailURL: image URLs must be secure (starting with 'https://').");
-                }
-            } catch {
-                throw new Error("Invalid thumbnailURL (is it missing or an incorrect URL?)");
+        try {
+            const thumbnailURLasURL = new URL(json.thumbnailURL);
+            if (thumbnailURLasURL.protocol !== "https:") {
+                throw new Error("Error in thumbnailURL: image URLs must be secure (starting with 'https://').");
             }
+        } catch {
+            throw new Error("Invalid thumbnailURL (is it missing or an incorrect URL?)");
         }
 
         // Nulls should be on JSON only. Missing values should be undefined in the object.
